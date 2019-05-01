@@ -3,4 +3,5 @@ student program developed in the java programming language with graphical interf
 
 
 Programming Language: Java<br>
-Statistic Functions: Moda, Mediana, Média, Variância, Desvio Padrão.
+Statistic Functions: Moda, Mediana, Média, Variância, Desvio Padrão.<br>
+IDE: NetBeans IDE 8.2<br>
