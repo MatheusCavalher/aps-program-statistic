@@ -7,6 +7,13 @@ import java.util.Iterator;
 import java.util.*;
 
 public class main extends javax.swing.JFrame {
+    
+    media media = new media();
+    mediana mediana = new mediana();
+    moda moda = new moda();
+    desvio_padrao desvio_padrao = new desvio_padrao();
+    variancia variancia = new variancia();
+    float varianciacalculada = 0.0f;
 
     public main() {
         initComponents();
@@ -266,76 +273,23 @@ public class main extends javax.swing.JFrame {
 
             //pega todo o texto da jtextfield e separa cada numero que ta digitado separado por virgula
             String[] values = texto.split(",");
-
-            //pega cada numero separado por virgula e coloca numa array list que e mais facil de trabalhar
-            for (int i = 0; i < values.length; i++) {
-                lista.add(values[i]);
-            }
-
-            System.out.printf("Percorrendo o ArrayList (usando o índice)\n");
-
-            //verifica quantos itens tem no array
-            int tamanho = lista.size();
-
-            System.out.printf("tamanho da lista " + tamanho + "\n");
-
-            float soma_numeros = 0;
-
-            for (int i = 0; i < tamanho; i++) {
-                System.out.printf("Posição %d- %s\n", i, lista.get(i));
-            }
-
-            //como java nao tem funcao de soma como sum(), tenho que somar cada elemento
-            for (int i = 0; i < tamanho; i++) {
-                soma_numeros += Float.parseFloat(lista.get(i));
-            }
-
-            System.out.printf("soma dos elementos da lista: " + soma_numeros + "\n");
-
-            float media = 0.0f;
-
-            //realiza o calculo da media
-            media = (soma_numeros / tamanho);
-
-            System.out.printf("media dos elementos da lista: " + media + "\n");
-
+            
             //imprime o numero na label media com duas casas decimais
-            jLabelMedia.setText(String.format("%.2f", media));
-
-            //cria uma outra lista para poder ordenar ela já que uma vez ordenada uma lista você não consegue voltar ao normal
-            ArrayList<String> lista_ordenada = new ArrayList();
-
-            //realiza um loop para passar os elementos do array principal para o secundario
-            for (int i = 0; i < lista.size(); i++) {
-                lista_ordenada.add(lista.get(i));
-            }
-
-            //usa uma collection para ordenar com a funcao sort
-            Collections.sort(lista_ordenada);
-            //verificando se ordenou
-            System.out.printf("lista ordenada: " + lista_ordenada + "\n");
-
-            //verifica quantos itens tem no array
-            int tamanho_lista_ordenada = lista_ordenada.size();
+            jLabelMedia.setText(String.format("%.2f", media.calculaMedia(values)));
             
-            float mediana = 0.0f;
+            //imprime o numero na label mediana com duas casas decimais
+            jLabelMediana.setText(String.format("%.2f", mediana.calculaMediana(values)));
             
-            int indice = (tamanho_lista_ordenada / 2);
-
-            if (tamanho_lista_ordenada % 2 == 0) {
-                mediana = Float.parseFloat(lista_ordenada.get(indice)) + Float.parseFloat(lista_ordenada.get(indice - 1));
-                System.out.printf("" + mediana + "\n");
-                mediana = mediana / 2;
-                System.out.printf("" + mediana + "\n");
-            }
-            else if(tamanho_lista_ordenada % 2 == 1) {
-                mediana = Float.parseFloat(lista_ordenada.get(indice));
-                System.out.printf("" + mediana + "\n");
-            }
+            //imprime o numero na label moda com duas casas decimais
+            jLabelModa.setText(String.format("%.2f", moda.calculaModa(values)));
             
-            //exibe a mediana
-            jLabelMediana.setText(String.format("%.2f", mediana));
+            varianciacalculada = variancia.calculaVariancia(values);
             
+            //imprime o numero na label variancia com duas casas decimais
+            jLabelVariancia.setText(String.format("%.2f", varianciacalculada));
+            
+            //imprime o numero na label desvio padrão com duas casas decimais
+            jLabelDPadrao.setText(String.format("%.2f", desvio_padrao.calculaDesvioPadrao(varianciacalculada)));
         }
     }//GEN-LAST:event_jButtonCalcularActionPerformed
 
