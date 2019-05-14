@@ -287,7 +287,7 @@ public class main extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, Short.MAX_VALUE)
         );
 
         pack();
@@ -335,10 +335,16 @@ public class main extends javax.swing.JFrame {
         //limpa as linhas da tabela para não correr o risco de sobreescrever
         dtmDistribuicao.setRowCount(0);
         
-        for (int i = 0; i < lista_ordenada.size(); i++) {
-            int soma = Integer.parseInt(lista_ordenada.get(i)) + intervalo_classe;
-            Object [] dados = {lista_ordenada.get(i) + "|---" + soma,"","","",""};
+        int somaprimeiro = Integer.parseInt(lista_ordenada.get(0)) + intervalo_classe;
+        posicaoAtual = somaprimeiro;
+        Object [] dadosprimeiro = {lista_ordenada.get(0) + "|---" + somaprimeiro ,"","","",""};
+        dtmDistribuicao.addRow(dadosprimeiro);
+            
+        for (int i = 1; i < lista_ordenada.size(); i++) {
+            int soma = posicaoAtual + intervalo_classe;
+            Object [] dados = {posicaoAtual + "|---" + soma,"","","",""};
             dtmDistribuicao.addRow(dados);
+            posicaoAtual = soma;
         }
  
     }
