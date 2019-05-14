@@ -38,9 +38,6 @@ public class mediana {
         else if(tamanho_lista_ordenada % 2 == 1) {
             mediana = Float.parseFloat(lista_ordenada.get(indice));
         }
-
-        //exibe a mediana
-        //jLabelMediana.setText(String.format("%.2f", mediana));
         
         return mediana;
     }
