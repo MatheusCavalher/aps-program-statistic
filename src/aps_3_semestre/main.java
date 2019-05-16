@@ -1,6 +1,8 @@
 /** @author matheus */
 package aps_3_semestre;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import java.util.*;
@@ -17,7 +19,7 @@ public class main extends javax.swing.JFrame {
     desvio_padrao desvio_padrao = new desvio_padrao();
     variancia variancia = new variancia();
     float varianciacalculada = 0.0f;
-    int posicaoAtual = 0;
+    double posicaoAtual = 0;
 
     public main() {
         initComponents();
@@ -314,20 +316,30 @@ public class main extends javax.swing.JFrame {
 
         //verifica quantos itens tem no array
         int tamanho_lista_ordenada = lista_ordenada.size();
+        System.out.println("tamanho da lista ordenada: " + tamanho_lista_ordenada);
         
         //pegar menor numero do array
-        int menor_numero = Integer.parseInt(lista_ordenada.get(0));
+        double menor_numero = Integer.parseInt(lista_ordenada.get(0));
+        System.out.println("menor numero: " + menor_numero);
         
-        int maior_numero = Integer.parseInt(lista_ordenada.get(lista_ordenada.size()-1));
+        double maior_numero = Integer.parseInt(lista_ordenada.get(lista_ordenada.size()-1));
+        System.out.println("maior numero: " + maior_numero);
         
-        int deltat = maior_numero - menor_numero;
+        double deltat = maior_numero - menor_numero;
+        System.out.println("delta: " + deltat);
         
-        int logaritmo_linha = (int)Math.log10(tamanho_lista_ordenada);
+        double logaritmo_linha = Math.log10(tamanho_lista_ordenada);
+        BigDecimal logaritmo_linha_arredondado = new BigDecimal(logaritmo_linha).setScale(2, RoundingMode.HALF_EVEN);
+        System.out.println("logaritmo: " + logaritmo_linha_arredondado);
+           
+        double linha = (1 + (3.3 * logaritmo_linha));
+        double linha_arredondado = arredondaNumero(linha);
+        System.out.println("linha: " + linha_arredondado);
         
-        int linha = (int)(1 + (3.3 * logaritmo_linha));
+        double intervalo_classe = deltat / linha_arredondado;
+        double intervalo_arredondado = arredondaNumero(intervalo_classe);
+        System.out.println("o intervalo de classe é " + intervalo_arredondado);
         
-        int intervalo_classe = deltat / linha;
-        System.out.println("o intervalo de classe é " + intervalo_classe);
         
         //para ser criado a tabela precisa setar o modelo
         DefaultTableModel dtmDistribuicao = (DefaultTableModel)jTableDistribuicaoFrequencia.getModel();
@@ -335,21 +347,32 @@ public class main extends javax.swing.JFrame {
         //limpa as linhas da tabela para não correr o risco de sobreescrever
         dtmDistribuicao.setRowCount(0);
         
-        int somaprimeiro = Integer.parseInt(lista_ordenada.get(0)) + intervalo_classe;
+        double somaprimeiro = Integer.parseInt(lista_ordenada.get(0)) + intervalo_arredondado;
         posicaoAtual = somaprimeiro;
-        Object [] dadosprimeiro = {lista_ordenada.get(0) + "|---" + somaprimeiro ,"","","",""};
+        Object [] dadosprimeiro = {lista_ordenada.get(0) + " |--- " + somaprimeiro ,"","","",""};
         dtmDistribuicao.addRow(dadosprimeiro);
             
         for (int i = 1; i < lista_ordenada.size(); i++) {
-            int soma = posicaoAtual + intervalo_classe;
-            Object [] dados = {posicaoAtual + "|---" + soma,"","","",""};
+            double soma = posicaoAtual + intervalo_arredondado;
+            Object [] dados = {posicaoAtual + " |--- " + soma,"","","",""};
             dtmDistribuicao.addRow(dados);
             posicaoAtual = soma;
         }
  
     }
     
-    
+    public double arredondaNumero(double paraArredondar) {
+        BigDecimal bd = new BigDecimal(paraArredondar).setScale(2, RoundingMode.HALF_EVEN);
+        double numero_arredondado;
+        float fracao = bd.floatValue() % 1.0f;
+        if(fracao >= 0.5f){
+          //aumenta ceil
+          return numero_arredondado = Math.ceil(bd.doubleValue());
+        } else{
+          //diminui floor
+          return numero_arredondado = Math.floor(bd.doubleValue());
+        }
+    }
     
     private void jButtonCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalcularActionPerformed
         String texto = jTextFieldRoll.getText();
