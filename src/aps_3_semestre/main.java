@@ -403,6 +403,8 @@ public class main extends javax.swing.JFrame {
     
     private void jButtonCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalcularActionPerformed
         String texto = jTextFieldRoll.getText();
+        //45,49,50,53,53,53,54,57,58,58,59,60,60,60,62,63,63,64,64,65,65,66,67,67,68,68,69,70,71,72,72,73,74,75,76,80,81,81,83,93
+        //47,49,50,52,55,57,57,58,59,60,63,64,64,65,68,68,69,69,70,71,72,72,73,73,74,74,75,76,77,77,77,80,80,81,81,81,82,83,86,87,88,88,90,90,91,91,92,94,96,97
 
         ArrayList<String> lista = new ArrayList();
 
@@ -421,9 +423,15 @@ public class main extends javax.swing.JFrame {
             jLabelMediana.setText(String.format("%.2f", mediana.calculaMediana(values)));
             
             //imprime o numero na label moda com duas casas decimais
-            jLabelModa.setText(String.format("%.2f", moda.calculaModa(values)));
+            if(moda.calculaModa(values) != 0)
+            {
+                jLabelModa.setText(String.format("%.2f", moda.calculaModa(values)));
+            }
             
-            varianciacalculada = variancia.calculaVariancia(values);
+            else
+                jLabelModa.setText(String.format("Não tem Moda"));
+        
+            varianciacalculada = variancia.calculaVariancia(values, media.calculaMedia(values));
             
             //imprime o numero na label variancia com duas casas decimais
             jLabelVariancia.setText(String.format("%.2f", varianciacalculada));
