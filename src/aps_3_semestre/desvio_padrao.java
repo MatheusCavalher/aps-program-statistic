@@ -3,12 +3,12 @@ package aps_3_semestre;
 
 public class desvio_padrao {
     
-    float desvio_padrao = 0.0f;
+    double desvio_padrao = 0.0f;
     double conta = 0;
     
-    public float calculaDesvioPadrao(float variancia) {
+    public double calculaDesvioPadrao(double variancia) {
         conta = Math.sqrt(variancia);
-        desvio_padrao = (float)conta;
+        desvio_padrao = conta;
         return desvio_padrao;
     }
 }

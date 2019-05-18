@@ -6,17 +6,17 @@ import java.util.Collections;
 
 public class mediana {
     
-    ArrayList<String> lista = new ArrayList();
-    float mediana = 0.0f;
+    ArrayList<Double> lista = new ArrayList();
+    double mediana = 0;
     
-    public float calculaMediana(String[] values) {
+    public double calculaMediana(double[] values) {
         //pega cada numero separado por virgula e coloca numa array list que e mais facil de trabalhar
         for (int i = 0; i < values.length; i++) {
             lista.add(values[i]);
         }
         
         //cria uma outra lista para poder ordenar ela já que uma vez ordenada uma lista você não consegue voltar ao normal
-        ArrayList<String> lista_ordenada = new ArrayList();
+        ArrayList<Double> lista_ordenada = new ArrayList();
 
         //realiza um loop para passar os elementos do array principal para o secundario
         for (int i = 0; i < lista.size(); i++) {
@@ -32,11 +32,11 @@ public class mediana {
         int indice = (tamanho_lista_ordenada / 2);
 
         if (tamanho_lista_ordenada % 2 == 0) {
-            mediana = Float.parseFloat(lista_ordenada.get(indice)) + Float.parseFloat(lista_ordenada.get(indice - 1));
+            mediana = lista_ordenada.get(indice) + lista_ordenada.get(indice - 1);
             mediana = mediana / 2;
         }
         else if(tamanho_lista_ordenada % 2 == 1) {
-            mediana = Float.parseFloat(lista_ordenada.get(indice));
+            mediana = lista_ordenada.get(indice);
         }
         
         return mediana;

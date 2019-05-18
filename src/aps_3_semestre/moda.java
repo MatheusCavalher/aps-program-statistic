@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class moda {
     
-    float moda = 0.0f;
+    double moda = 0;
     int times = 0;
     
-    public float calculaModa(String[] values) {
+    public double calculaModa(double[] values) {
          
         for(int i = 0; i < values.length; i++)
         {
@@ -18,14 +18,14 @@ public class moda {
             {
                 if(i == k) continue;
                 
-                if(Float.parseFloat(values[i]) == Float.parseFloat(values[k]))
+                if(values[i] == values[k])
                     vezes++;
             }
             // Compara se a quantidade de vezes é maior que a anterior, para definir qual mais se repete
             if(vezes > times)
             {
                 times = vezes;
-                moda = Float.parseFloat(values[i]);         
+                moda = values[i];         
             }
         }
              // retorna o valor encontrado na moda

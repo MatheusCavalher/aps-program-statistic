@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class media {
     
-    ArrayList<String> lista = new ArrayList();
-    float media = 0.0f;
+    ArrayList<Double> lista = new ArrayList();
+    double media = 0;
     
-    public float calculaMedia(String[] values) {
+    public double calculaMedia(double[] values) {
         
         //pega cada numero separado por virgula e coloca numa array list que e mais facil de trabalhar
         for (int i = 0; i < values.length; i++) {
@@ -17,8 +17,9 @@ public class media {
 
         //verifica quantos itens tem no array
         int tamanho = lista.size();
+        System.out.println(tamanho);
 
-        float soma_numeros = 0;
+        double soma_numeros = 0;
 
         for (int i = 0; i < tamanho; i++) {
             System.out.printf("Posição %d- %s\n", i, lista.get(i));
@@ -26,14 +27,13 @@ public class media {
 
         //como java nao tem funcao de soma como sum(), tenho que somar cada elemento
         for (int i = 0; i < tamanho; i++) {
-            soma_numeros += Float.parseFloat(lista.get(i));
+            soma_numeros += lista.get(i);
         }
 
         //realiza o calculo da media
         media = (soma_numeros / tamanho);
-
-        //imprime o numero na label media com duas casas decimais
-        //jLabelMedia.setText(String.format("%.2f", media));
+        
+        System.out.println(media);
         
         return media;
     }

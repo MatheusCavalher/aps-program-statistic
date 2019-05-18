@@ -3,23 +3,24 @@ package aps_3_semestre;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import java.util.*;
+import javax.swing.DefaultListModel;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class main extends javax.swing.JFrame {
-    
+
     media media = new media();
     mediana mediana = new mediana();
     moda moda = new moda();
     desvio_padrao desvio_padrao = new desvio_padrao();
     variancia variancia = new variancia();
-    float varianciacalculada = 0.0f;
     double posicaoAtual = 0;
+    DefaultListModel dlm = new DefaultListModel();
+    double[] numerosDigitados;
 
     public main() {
         initComponents();
@@ -56,6 +57,9 @@ public class main extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableDistribuicaoFrequencia = new javax.swing.JTable();
         jButtonLimpar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListNumeros = new javax.swing.JList<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(32, 33, 35));
@@ -139,11 +143,11 @@ public class main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "i.c", "fi", "fiac", "fri%", "friac%"
+                "I.C", "Fi", "Fri%", "Xi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -172,11 +176,24 @@ public class main extends javax.swing.JFrame {
             }
         });
 
+        jListNumeros.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jScrollPane1.setViewportView(jListNumeros);
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jButton1.setText("Adcionar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -186,71 +203,78 @@ public class main extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(76, 76, 76)
                                 .addComponent(jLabel7))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(135, 135, 135)
-                                .addComponent(jButtonCalcular)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonCalcular)
+                                .addGap(39, 39, 39)
                                 .addComponent(jButtonLimpar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(81, 81, 81)
-                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(56, 56, 56)))
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldRoll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(19, 19, 19))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(80, 80, 80)
-                                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(162, 162, 162)
-                                        .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabelMediana)
-                                        .addGap(22, 22, 22)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabelDPadrao))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jLabelMedia)
-                                                .addGap(66, 66, 66))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel4)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabelModa)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel5)
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabelVariancia)
-                                                    .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(118, 118, 118)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldRoll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(19, 19, 19))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(80, 80, 80)
+                                    .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(162, 162, 162)
+                                    .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabelMediana)
+                                    .addGap(22, 22, 22)
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabelDPadrao))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel2)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jLabelMedia)
+                                            .addGap(66, 66, 66))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel4)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabelModa)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel5)
+                                            .addGap(18, 18, 18)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabelVariancia)
+                                                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(118, 118, 118)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -259,10 +283,11 @@ public class main extends javax.swing.JFrame {
                         .addComponent(jTextFieldRoll, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonLimpar)
                             .addComponent(jButtonCalcular)
-                            .addComponent(jButtonLimpar))
+                            .addComponent(jButton1))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,7 +312,7 @@ public class main extends javax.swing.JFrame {
                             .addComponent(jLabelModa))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(jLabelDPadrao)
@@ -298,14 +323,10 @@ public class main extends javax.swing.JFrame {
                             .addComponent(jSeparator7, javax.swing.GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
                             .addComponent(jSeparator4))
                         .addGap(67, 67, 67))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jSeparator2)))
                 .addGap(16, 16, 16))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -322,16 +343,16 @@ public class main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void geraTabela(String[] values) {
-        ArrayList<String> lista = new ArrayList();
-        
+    public void geraTabela(double[] values) {
+        ArrayList<Double> lista = new ArrayList();
+
         //pega cada numero separado por virgula e coloca numa array list que e mais facil de trabalhar
         for (int i = 0; i < values.length; i++) {
             lista.add(values[i]);
         }
-        
+
         //cria uma outra lista para poder ordenar ela já que uma vez ordenada uma lista você não consegue voltar ao normal
-        ArrayList<String> lista_ordenada = new ArrayList();
+        ArrayList<Double> lista_ordenada = new ArrayList();
 
         //realiza um loop para passar os elementos do array principal para o secundario
         for (int i = 0; i < lista.size(); i++) {
@@ -344,101 +365,153 @@ public class main extends javax.swing.JFrame {
         //verifica quantos itens tem no array
         int tamanho_lista_ordenada = lista_ordenada.size();
         System.out.println("tamanho da lista ordenada: " + tamanho_lista_ordenada);
-        
+
         //pegar menor numero do array
-        double menor_numero = Integer.parseInt(lista_ordenada.get(0));
+        double menor_numero = lista_ordenada.get(0);
         System.out.println("menor numero: " + menor_numero);
-        
-        double maior_numero = Integer.parseInt(lista_ordenada.get(lista_ordenada.size()-1));
+
+        double maior_numero = lista_ordenada.get(lista_ordenada.size() - 1);
         System.out.println("maior numero: " + maior_numero);
-        
+
         double deltat = maior_numero - menor_numero;
         System.out.println("delta: " + deltat);
-        
+
         double logaritmo_linha = Math.log10(tamanho_lista_ordenada);
         BigDecimal logaritmo_linha_arredondado = new BigDecimal(logaritmo_linha).setScale(2, RoundingMode.HALF_EVEN);
         System.out.println("logaritmo: " + logaritmo_linha_arredondado);
-           
-        double linha = (1 + (3.3 * logaritmo_linha));
+
+        float linha = 0.0f;
+        linha = (float) (1 + 3.3 * Math.log10(deltat));
+        System.out.println("linha: " + Math.round(linha));
+
         double linha_arredondado = arredondaNumero(linha);
-        System.out.println("linha: " + linha_arredondado);
-        
+
         double intervalo_classe = deltat / linha_arredondado;
         double intervalo_arredondado = arredondaNumero(intervalo_classe);
-        System.out.println("o intervalo de classe é " + intervalo_arredondado);
-        
-        
+        System.out.println("o intervalo de classe e " + intervalo_arredondado);
+
         //para ser criado a tabela precisa setar o modelo
-        DefaultTableModel dtmDistribuicao = (DefaultTableModel)jTableDistribuicaoFrequencia.getModel();
-        
+        DefaultTableModel dtmDistribuicao = (DefaultTableModel) jTableDistribuicaoFrequencia.getModel();
+
         //limpa as linhas da tabela para não correr o risco de sobreescrever
         dtmDistribuicao.setRowCount(0);
-        
-        double somaprimeiro = Integer.parseInt(lista_ordenada.get(0)) + intervalo_arredondado;
+
+        int vezes = 0;
+        double soma1 = menor_numero + intervalo_arredondado;
+
+        for (int i = 0; i < intervalo_arredondado; i++) {
+            if (lista.get(i) >= menor_numero && lista.get(i) < soma1) {
+                vezes++;
+            }
+        }
+
+        float fr = 100 / lista.size();
+
+        double xi = 0;
+
+        double somaprimeiro = lista_ordenada.get(0) + intervalo_arredondado;
         posicaoAtual = somaprimeiro;
-        Object [] dadosprimeiro = {lista_ordenada.get(0) + " |--- " + somaprimeiro ,"","","",""};
+        xi = (menor_numero + somaprimeiro) / 2;
+        Object[] dadosprimeiro = {lista_ordenada.get(0) + " |--- " + somaprimeiro, vezes, fr * vezes, xi, ""};
         dtmDistribuicao.addRow(dadosprimeiro);
-            
-        for (int i = 1; i < lista_ordenada.size(); i++) {
+
+        int vezes2 = 0;
+
+        ArrayList<Integer> lista2 = new ArrayList();
+
+        if (maior_numero > menor_numero + (intervalo_arredondado * linha_arredondado)) {
+            for (int k = 0; k < linha_arredondado + 1; k++) {
+                double soma2 = menor_numero + intervalo_arredondado;
+
+                for (int i = 0; i < lista.size(); i++) {
+                    double num1 = lista.get(i);
+
+                    if (num1 >= menor_numero && num1 < soma2) {
+                        vezes2++;
+                    }
+                }
+
+                menor_numero = soma2;
+                lista2.add(vezes2);
+                vezes2 = 0;
+            }
+        } else {
+            for (int k = 0; k < linha_arredondado; k++) {
+                double soma2 = menor_numero + intervalo_arredondado;
+
+                for (int i = 0; i < lista.size(); i++) {
+                    double num1 = lista.get(i);
+
+                    if (num1 >= menor_numero && num1 < soma2) {
+                        vezes2++;
+                    }
+                }
+
+                menor_numero = soma2;
+                lista2.add(vezes2);
+                vezes2 = 0;
+            }
+        }
+
+        double xi2 = 0;
+        
+
+        for (int i = 1; i <= linha_arredondado; i++) {
             double soma = posicaoAtual + intervalo_arredondado;
-            Object [] dados = {posicaoAtual + " |--- " + soma,"","","",""};
+            xi2 = (posicaoAtual + soma) / 2;
+            System.out.println("esse e o x com problema"+xi2);
+
+            Object[] dados = {posicaoAtual + " |--- " + soma, lista2.get(i), fr * lista2.get(i), String.format("%.2f", xi2), ""};
             dtmDistribuicao.addRow(dados);
             posicaoAtual = soma;
+
+                
+            if (i == linha_arredondado && (maior_numero > menor_numero + (intervalo_arredondado * linha_arredondado))) {
+                double result = (soma + intervalo_arredondado);
+                Object[] maisumalinha = {soma + " |--- " + result, lista2.get(i + 1), fr * lista2.get(i + 1), xi2, ""};
+                dtmDistribuicao.addRow(maisumalinha);
+
+            }
         }
- 
+
     }
-    
+
     public double arredondaNumero(double paraArredondar) {
         BigDecimal bd = new BigDecimal(paraArredondar).setScale(2, RoundingMode.HALF_EVEN);
         double numero_arredondado;
         float fracao = bd.floatValue() % 1.0f;
-        if(fracao >= 0.5f){
-          //aumenta ceil
-          return numero_arredondado = Math.ceil(bd.doubleValue());
-        } else{
-          //diminui floor
-          return numero_arredondado = Math.floor(bd.doubleValue());
+        if (fracao >= 0.5f) {
+            //aumenta ceil
+            return numero_arredondado = Math.ceil(bd.doubleValue());
+        } else {
+            //diminui floor
+            return numero_arredondado = Math.floor(bd.doubleValue());
         }
     }
-    
+
     private void jButtonCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalcularActionPerformed
-        String texto = jTextFieldRoll.getText();
-        //45,49,50,53,53,53,54,57,58,58,59,60,60,60,62,63,63,64,64,65,65,66,67,67,68,68,69,70,71,72,72,73,74,75,76,80,81,81,83,93
-        //47,49,50,52,55,57,57,58,59,60,63,64,64,65,68,68,69,69,70,71,72,72,73,73,74,74,75,76,77,77,77,80,80,81,81,81,82,83,86,87,88,88,90,90,91,91,92,94,96,97
 
-        ArrayList<String> lista = new ArrayList();
-
-        if (texto.length() > 0 && texto.contains(",")) {
-
-            //pega todo o texto da jtextfield e separa cada numero que ta digitado separado por virgula
-            String[] values = texto.split(",");
-            
-            //envia os dados digitados pelo usuario para o metodo que gera tabela
-            geraTabela(values);
-            
-            //imprime o numero na label media com duas casas decimais
-            jLabelMedia.setText(String.format("%.2f", media.calculaMedia(values)));
-            
-            //imprime o numero na label mediana com duas casas decimais
-            jLabelMediana.setText(String.format("%.2f", mediana.calculaMediana(values)));
-            
-            //imprime o numero na label moda com duas casas decimais
-            if(moda.calculaModa(values) != 0)
-            {
-                jLabelModa.setText(String.format("%.2f", moda.calculaModa(values)));
-            }
-            
-            else
-                jLabelModa.setText(String.format("Não tem Moda"));
-        
-            varianciacalculada = variancia.calculaVariancia(values, media.calculaMedia(values));
-            
-            //imprime o numero na label variancia com duas casas decimais
-            jLabelVariancia.setText(String.format("%.2f", varianciacalculada));
-            
-            //imprime o numero na label desvio padrão com duas casas decimais
-            jLabelDPadrao.setText(String.format("%.2f", desvio_padrao.calculaDesvioPadrao(varianciacalculada)));
+        //45-49-50-53-53-53-54-57-58-58-59-60-60-60-62-63-63-64-64-65-65-66-67-67-68-68-69-70-71-72-72-73-74-75-76-80-81-81-83-93
+        //47-49-50-52-55-57-57-58-59-60-63-64-64-65-68-68-69-69-70-71-72-72-73-73-74-74-75-76-77-77-77-80-80-81-81-81-82-83-86-87-88-88-90-90-91-91-92-94-96-97
+        //int tamanhoLista = jListNumeros.getModel().getSize();
+        //envia os dados digitados pelo usuario para o metodo que gera tabela
+        geraTabela(numerosDigitados);
+        //imprime o numero na label media com duas casas decimais
+        jLabelMedia.setText(String.format("%.2f", media.calculaMedia(numerosDigitados)));
+        //imprime o numero na label mediana com duas casas decimais
+        jLabelMediana.setText(String.format("%.2f", mediana.calculaMediana(numerosDigitados)));
+        //imprime o numero na label moda com duas casas decimais
+        if (moda.calculaModa(numerosDigitados) != 0) {
+            jLabelModa.setText(String.format("%.2f", moda.calculaModa(numerosDigitados)));
+        } else {
+            jLabelModa.setText(String.format("Não tem Moda"));
         }
+
+        //imprime o numero na label variancia com duas casas decimais
+        jLabelVariancia.setText(String.format("%.2f", variancia.calculaVariancia(numerosDigitados, media.calculaMedia(numerosDigitados))));
+        //imprime o numero na label desvio padrão com duas casas decimais
+        jLabelDPadrao.setText(String.format("%.2f", desvio_padrao.calculaDesvioPadrao(variancia.calculaVariancia(numerosDigitados, media.calculaMedia(numerosDigitados)))));
+
     }//GEN-LAST:event_jButtonCalcularActionPerformed
 
     private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
@@ -449,12 +522,30 @@ public class main extends javax.swing.JFrame {
         jLabelMedia.setText("00,00");
         jLabelMediana.setText("00,00");
         jLabelModa.setText("00,00");
-        
-        DefaultTableModel dtmDistribuicao = (DefaultTableModel)jTableDistribuicaoFrequencia.getModel();
+        dlm.clear();
+
+        DefaultTableModel dtmDistribuicao = (DefaultTableModel) jTableDistribuicaoFrequencia.getModel();
         dtmDistribuicao.setRowCount(0);
     }//GEN-LAST:event_jButtonLimparActionPerformed
 
-    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jListNumeros.setModel(dlm);
+        dlm.clear();
+        String texto = jTextFieldRoll.getText().trim(); //520,36-540,14-700,14-852,69-456,98-4000,21
+        String[] values = texto.split("-");
+
+        numerosDigitados = new double[values.length];
+
+        for (int i = 0; i < values.length; i++) {
+            double numeroDigitado = Double.parseDouble(values[i].replace(",", "."));
+            dlm.addElement(numeroDigitado);
+        }
+
+        for (int i = 0; i < values.length; i++) {
+            numerosDigitados[i] = Double.parseDouble(values[i].replace(",", "."));
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -482,6 +573,7 @@ public class main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCalcular;
     private javax.swing.JButton jButtonLimpar;
     private javax.swing.JLabel jLabel1;
@@ -496,8 +588,10 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelMediana;
     private javax.swing.JLabel jLabelModa;
     private javax.swing.JLabel jLabelVariancia;
+    private javax.swing.JList<String> jListNumeros;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
