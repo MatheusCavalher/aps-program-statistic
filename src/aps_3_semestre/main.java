@@ -21,6 +21,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.HistogramDataset;
@@ -429,32 +431,20 @@ public class main extends javax.swing.JFrame {
 
         //limpa as linhas da tabela para não correr o risco de sobreescrever
         dtmDistribuicao.setRowCount(0);
-
-        int vezes = 0;
-        double soma1 = menor_numero + intervalo_arredondado;
-
-        for (int i = 0; i < intervalo_arredondado; i++) {
-            if (lista.get(i) >= menor_numero && lista.get(i) < soma1) {
-                vezes++;
-            }
-        }
-
-        float fr = 100 / lista.size();
-
+     
+        DefaultCategoryDataset barchartdata = new DefaultCategoryDataset();
+             
+        CategoryItemRenderer lineRenderer = new LineAndShapeRenderer();
+     
         double xi = 0;
-
-        double somaprimeiro = lista_ordenada.get(0) + intervalo_arredondado;
-        posicaoAtual = somaprimeiro;
-        xi = (menor_numero + somaprimeiro) / 2;
-        Object[] dadosprimeiro = {lista_ordenada.get(0) + " |--- " + somaprimeiro, vezes, fr * vezes, xi, ""};
-        dtmDistribuicao.addRow(dadosprimeiro);
-
+        float fr = 100 / lista.size();
         int vezes2 = 0;
 
         ArrayList<Integer> lista2 = new ArrayList();
 
-        if (maior_numero > menor_numero + (intervalo_arredondado * linha_arredondado)) {
-            for (int k = 0; k < linha_arredondado + 1; k++) {
+        if (maior_numero > menor_numero + (intervalo_arredondado * linha_arredondado)) 
+        {
+            for (int k = 0; k < lista.size(); k++) {
                 double soma2 = menor_numero + intervalo_arredondado;
 
                 for (int i = 0; i < lista.size(); i++) {
@@ -463,13 +453,15 @@ public class main extends javax.swing.JFrame {
                     if (num1 >= menor_numero && num1 < soma2) {
                         vezes2++;
                     }
-                }
+                }       
 
                 menor_numero = soma2;
                 lista2.add(vezes2);
                 vezes2 = 0;
             }
-        } else {
+        } 
+        else 
+        {
             for (int k = 0; k < linha_arredondado; k++) {
                 double soma2 = menor_numero + intervalo_arredondado;
 
@@ -479,35 +471,69 @@ public class main extends javax.swing.JFrame {
                     if (num1 >= menor_numero && num1 < soma2) {
                         vezes2++;
                     }
-                }
+                }       
 
                 menor_numero = soma2;
                 lista2.add(vezes2);
                 vezes2 = 0;
             }
         }
-
-        double xi2 = 0;
         
-
-        for (int i = 1; i <= linha_arredondado; i++) {
-            double soma = posicaoAtual + intervalo_arredondado;
-            xi2 = (posicaoAtual + soma) / 2;
-            System.out.println("esse e o x com problema"+xi2);
-
-            Object[] dados = {posicaoAtual + " |--- " + soma, lista2.get(i), fr * lista2.get(i), String.format("%.2f", xi2), ""};
-            dtmDistribuicao.addRow(dados);
-            posicaoAtual = soma;
-
-                
-            if (i == linha_arredondado && (maior_numero > menor_numero + (intervalo_arredondado * linha_arredondado))) {
-                double result = (soma + intervalo_arredondado);
-                Object[] maisumalinha = {soma + " |--- " + result, lista2.get(i + 1), fr * lista2.get(i + 1), xi2, ""};
-                dtmDistribuicao.addRow(maisumalinha);
-
+        double posicaoAtual2 = lista.get(0);
+        
+        if (maior_numero > lista_ordenada.get(0) + (intervalo_arredondado * linha_arredondado))
+        {
+            for(int i = 0; i <= linha_arredondado; i++)
+            {
+               double soma = posicaoAtual2 + intervalo_arredondado;
+               barchartdata.addValue(lista2.get(i), Double.toString(posicaoAtual2), Double.toString(soma));
+               posicaoAtual2 = soma;
             }
         }
-
+        else
+        {
+            for(int i = 0; i < linha_arredondado; i++)
+            {
+              double soma = posicaoAtual2 + intervalo_arredondado;
+               barchartdata.addValue(lista2.get(i), Double.toString(posicaoAtual2), Double.toString(soma));
+               posicaoAtual2 = soma;
+            }
+        }
+        
+        posicaoAtual = lista_ordenada.get(0);
+        
+         for (int i = 0; i < linha_arredondado; i++) {
+            double soma = posicaoAtual + intervalo_arredondado;
+            xi = (posicaoAtual + soma) / 2;
+            Object[] dadosprimeiro = {posicaoAtual + " |--- " + soma, lista2.get(i), fr * lista2.get(i), String.format("%.2f", xi), ""};
+            dtmDistribuicao.addRow(dadosprimeiro);
+            posicaoAtual = soma;
+                   
+            if (i + 1 == linha_arredondado && (maior_numero > lista_ordenada.get(0) + (intervalo_arredondado * linha_arredondado))) {
+                double result = (soma + intervalo_arredondado);
+                double xi2 = (posicaoAtual + result) / 2;
+                Object[] maisumalinha = {posicaoAtual + " |--- " + result, lista2.get(i + 1), fr * lista2.get(i + 1), String.format("%.2f", xi2), ""};
+                dtmDistribuicao.addRow(maisumalinha);
+            }
+        }
+        
+        JFreeChart barchart = ChartFactory.createBarChart("Gráfico de Barras", "Intervalo de Classe (Ic)          X", "Frequencia (Fr)          Y", barchartdata,PlotOrientation.VERTICAL, true, true, true);
+        CategoryPlot barchrt = barchart.getCategoryPlot();
+        barchrt.setRangeGridlinePaint(Color.BLACK);
+        barchrt.mapDatasetToRangeAxis(2, 1);
+        //barchrt.setDataset(0, barchartdata);
+        
+        barchrt.setDataset(1, barchartdata);
+        barchrt.setRenderer(1, lineRenderer);       
+        
+        ChartPanel myChartPanel = new ChartPanel(barchart, true);
+        myChartPanel.setSize(jPanelGrafico.getWidth(),jPanelGrafico.getHeight());
+        myChartPanel.setVisible(true); 
+        jPanelGrafico.removeAll();
+        jPanelGrafico.add(myChartPanel);
+        jPanelGrafico.revalidate();
+        jPanelGrafico.repaint();
+        
     }
 
     public double arredondaNumero(double paraArredondar) {
