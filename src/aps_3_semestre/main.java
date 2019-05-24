@@ -552,38 +552,6 @@ public class main extends javax.swing.JFrame {
     
     private void jButtonCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalcularActionPerformed
 
-        // cria o data set de histograma
-        //HistogramDataset dataset = new HistogramDataset();
-        //dataset.setType(HistogramType.RELATIVE_FREQUENCY);
-        //dataset.addSeries("teste", numerosDigitados, 200);
-
-        // gera o grafico
-        //JFreeChart barchart = ChartFactory.createBarChart("", "X", "Y", barchartdata,PlotOrientation.VERTICAL, true, true, false);
-        //CategoryPlot barchrt = chart.getCategoryPlot();
-        //barchrt.setRangeGridlinePaint(Color.ORANGE);
-        //ChartPanel myChartPanel = new ChartPanel(barchart, true); //criei o painel de grafico colocando meu grafico previamente gerado
-        //myChartPanel.setSize(jPanelGrafico.getWidth(),jPanelGrafico.getHeight()); //setei o tamanho do grafico conforme o painel que usarei
-        //myChartPanel.setVisible(true); 
-        //jPanelGrafico.removeAll(); //removi todos os componentes que podem estar no meu painel
-        //jPanelGrafico.add(myChartPanel);
-        //jPanelGrafico.revalidate(); // revalidei meu painel, para que ele se atualize
-        //jPanelGrafico.repaint();
-        
-        DefaultCategoryDataset barchartdata = new DefaultCategoryDataset();
-        barchartdata.setValue(10, "1", "1");
-        barchartdata.setValue(20, "1", "2");
-        barchartdata.setValue(30, "1", "3");
-        JFreeChart barchart = ChartFactory.createBarChart("gráfico de barras", "X", "Y", barchartdata,PlotOrientation.VERTICAL, false, true, false);
-        CategoryPlot barchrt = barchart.getCategoryPlot();
-        barchrt.setRangeGridlinePaint(Color.ORANGE);
-        ChartPanel myChartPanel = new ChartPanel(barchart, true);
-        myChartPanel.setSize(jPanelGrafico.getWidth(),jPanelGrafico.getHeight());
-        myChartPanel.setVisible(true); 
-        jPanelGrafico.removeAll();
-        jPanelGrafico.add(myChartPanel);
-        jPanelGrafico.revalidate();
-        jPanelGrafico.repaint();
-        
         //45-49-50-53-53-53-54-57-58-58-59-60-60-60-62-63-63-64-64-65-65-66-67-67-68-68-69-70-71-72-72-73-74-75-76-80-81-81-83-93
         //47-49-50-52-55-57-57-58-59-60-63-64-64-65-68-68-69-69-70-71-72-72-73-73-74-74-75-76-77-77-77-80-80-81-81-81-82-83-86-87-88-88-90-90-91-91-92-94-96-97
         //int tamanhoLista = jListNumeros.getModel().getSize();
