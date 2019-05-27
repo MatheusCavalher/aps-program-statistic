@@ -18,6 +18,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
@@ -478,7 +479,7 @@ public class main extends javax.swing.JFrame {
                 vezes2 = 0;
             }
         }
-        
+        //Double.toString(posicaoAtual2)
         double posicaoAtual2 = lista.get(0);
         
         if (maior_numero > lista_ordenada.get(0) + (intervalo_arredondado * linha_arredondado))
@@ -486,7 +487,7 @@ public class main extends javax.swing.JFrame {
             for(int i = 0; i <= linha_arredondado; i++)
             {
                double soma = posicaoAtual2 + intervalo_arredondado;
-               barchartdata.addValue(lista2.get(i), Double.toString(posicaoAtual2), Double.toString(soma));
+               barchartdata.addValue(lista2.get(i), "Gráfico", Double.toString(posicaoAtual2) + " até " + Double.toString(soma));
                posicaoAtual2 = soma;
             }
         }
@@ -495,9 +496,19 @@ public class main extends javax.swing.JFrame {
             for(int i = 0; i < linha_arredondado; i++)
             {
               double soma = posicaoAtual2 + intervalo_arredondado;
-               barchartdata.addValue(lista2.get(i), Double.toString(posicaoAtual2), Double.toString(soma));
+               barchartdata.addValue(lista2.get(i), "Gráfico", Double.toString(posicaoAtual2) + " até " + Double.toString(soma));
                posicaoAtual2 = soma;
             }
+        }
+        
+        int somafr = 0;
+        int somafrac = 0;
+        double somaxi = 0;
+        
+        for(int i = 0; i < lista2.size(); i++)
+        {
+            somafr += lista2.get(i);
+            somafrac += (fr * lista2.get(i));
         }
         
         posicaoAtual = lista_ordenada.get(0);
@@ -505,7 +516,9 @@ public class main extends javax.swing.JFrame {
          for (int i = 0; i < linha_arredondado; i++) {
             double soma = posicaoAtual + intervalo_arredondado;
             xi = (posicaoAtual + soma) / 2;
+            somaxi += xi;
             Object[] dadosprimeiro = {posicaoAtual + " |--- " + soma, lista2.get(i), fr * lista2.get(i), String.format("%.2f", xi), ""};
+            Object[] somaaa = { "        Σ", somafr, somafrac, somaxi};
             dtmDistribuicao.addRow(dadosprimeiro);
             posicaoAtual = soma;
                    
@@ -515,13 +528,18 @@ public class main extends javax.swing.JFrame {
                 Object[] maisumalinha = {posicaoAtual + " |--- " + result, lista2.get(i + 1), fr * lista2.get(i + 1), String.format("%.2f", xi2), ""};
                 dtmDistribuicao.addRow(maisumalinha);
             }
+            
+            if(i + 1 == linha_arredondado)
+            dtmDistribuicao.addRow(somaaa);          
         }
         
-        JFreeChart barchart = ChartFactory.createBarChart("Gráfico de Barras", "Intervalo de Classe (Ic)          X", "Frequencia (Fr)          Y", barchartdata,PlotOrientation.VERTICAL, true, true, true);
+         
+         
+        ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
+        JFreeChart barchart = ChartFactory.createBarChart("Gráfico de Barras", "Intervalo de Classe (Ic)          X", "Frequencia (Fi)          Y", barchartdata,PlotOrientation.VERTICAL, true, true, true);
         CategoryPlot barchrt = barchart.getCategoryPlot();
         barchrt.setRangeGridlinePaint(Color.BLACK);
-        barchrt.mapDatasetToRangeAxis(2, 1);
-        //barchrt.setDataset(0, barchartdata);
+        barchrt.getRenderer().setSeriesPaint(0, Color.BLUE);
         
         barchrt.setDataset(1, barchartdata);
         barchrt.setRenderer(1, lineRenderer);       
@@ -552,7 +570,7 @@ public class main extends javax.swing.JFrame {
     
     private void jButtonCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalcularActionPerformed
 
-        //45-49-50-53-53-53-54-57-58-58-59-60-60-60-62-63-63-64-64-65-65-66-67-67-68-68-69-70-71-72-72-73-74-75-76-80-81-81-83-93
+        //511.23-510.82-508.35-507.94-506.70-506.29-505.88-505.47-504.65-503.83-503.01-502.19-500.55-498.92-496.47-494.03-490.37-489.15-488.34-487.13-485.51-483.09-479.47-480.27-481.48-482.69-481.88-481.08-480.27-479.06
         //47-49-50-52-55-57-57-58-59-60-63-64-64-65-68-68-69-69-70-71-72-72-73-73-74-74-75-76-77-77-77-80-80-81-81-81-82-83-86-87-88-88-90-90-91-91-92-94-96-97
         //int tamanhoLista = jListNumeros.getModel().getSize();
         //envia os dados digitados pelo usuario para o metodo que gera tabela
