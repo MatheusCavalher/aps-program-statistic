@@ -469,7 +469,7 @@ public class main extends javax.swing.JFrame {
             }
         }
         //Double.toString(posicaoAtual2)
-        double posicaoAtual2 = lista.get(0);
+        double posicaoAtual2 = lista_ordenada.get(0);
         
         if (maior_numero > lista_ordenada.get(0) + (intervalo_arredondado * linha_arredondado))
         {
